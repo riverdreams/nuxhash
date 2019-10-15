@@ -57,7 +57,7 @@ def main():
     config_dir = Path(args.configdir[0])
 
     if args.version:
-        print(f'nuxhash daemon {__version__}')
+        print('nuxhash daemon ' + __version__)
         return
 
     if args.show_mining:
@@ -84,7 +84,7 @@ def main():
     downloadables = make_miners(config_dir)
     for d in downloadables:
         if not d.verify():
-            logging.info(f'Downloading {d.name}')
+            logging.info('Downloading ' + d.name)
             d.download()
     nx_miners = [miner(config_dir) for miner in all_miners]
     for miner in nx_miners:
@@ -182,12 +182,12 @@ def run_benchmarks(targets):
     for device, algorithm in sorted(targets, key=lambda t: str(t[0])):
         if device != last_device:
             if isinstance(device, NvidiaDevice):
-                print(f'\nCUDA device: {device.name} ({device.uuid})')
+                print('\nCUDA device: ' + {device.name} + "(" + device.uuid + ")")
             last_device = device
         try:
             benchmarks[device][algorithm.name] = run_benchmark(device, algorithm)
         except MinerNotRunning:
-            print(f'  {algorithm.name}: failed to complete benchmark     ')
+            print('  ' + algorithm.name + ': failed to complete benchmark     ')
             benchmarks[device][algorithm.name] = [0.0]*len(algorithm.algorithms)
         except KeyboardInterrupt:
             print('Benchmarking aborted (completed benchmarks saved).')
@@ -206,10 +206,10 @@ def run_benchmark(device, algorithm):
         speeds = utils.format_speeds(sample)
         time = utils.format_time(abs(secs_remaining))
         if secs_remaining < 0:
-            print(f'  {algorithm.name} {status_line} {speeds} (warming up, {time})'
+            print(algorithm.name + ' ' + status_line + ' ' + speeds + ' warming up, ' + time
                   + '\r', end='')
         else:
-            print(f'  {algorithm.name} {status_line} {speeds} (sampling, {time}) '
+            print(algorithm.name + ' ' + status_line + ' ' + speeds + ' sampling, ' + time
                   + '\r', end='')
         sys.stdout.flush()
 
@@ -217,14 +217,14 @@ def run_benchmark(device, algorithm):
         algorithm, device, algorithm.warmup_secs, BENCHMARK_SECS,
         sample_callback=report_speeds)
 
-    print(f'  {algorithm.name}: {utils.format_speeds(speeds)}' + ' '*22)
+    print(algorithm.name +': ' + utils.format_speeds(speeds) + ' '*22)
     return speeds
 
 
 def list_devices(nx_devices):
     for d in sorted(nx_devices, key=str):
         if isinstance(d, NvidiaDevice):
-            print(f'CUDA device: {d.name} ({d.uuid})')
+            print('CUDA device: ' + d.name + " (" + d.uuid + ")")
 
 
 class MiningSession(object):
@@ -253,7 +253,7 @@ class MiningSession(object):
                 payrates = nicehash.simplemultialgo_info(self._settings)
                 stratums = nicehash.stratums(self._settings)
             except Exception as err:
-                logging.warning(f'NiceHash stats: {err}, retrying in 5 seconds')
+                logging.warning('NiceHash stats: ' + err + ', retrying in 5 seconds')
                 time.sleep(5)
             else:
                 self._payrates = (payrates, datetime.now())
@@ -278,7 +278,7 @@ class MiningSession(object):
         try:
             ret_payrates = nicehash.simplemultialgo_info(self._settings)
         except Exception as err:
-            logging.warning(f'NiceHash stats: {err}')
+            logging.warning('NiceHash stats: ' + err)
         else:
             self._payrates = (ret_payrates, datetime.now())
 
