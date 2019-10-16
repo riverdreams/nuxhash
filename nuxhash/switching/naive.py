@@ -27,7 +27,7 @@ class NaiveSwitcher(ProfitSwitcher):
 
                 if stay_revenue != 0.0 and switch_revenue/stay_revenue >= min_factor:
                     logging.info('Switching '+device+' from '+stay_algo.name
-                                 + 'to '+switch_algo.name+'('+stay_revenue:.3f
+                                 + 'to '+switch_algo.name+'('+stay_revenue
                                  + '-> '+switch_revenue:.3f+' mBTC/day)')
                     decision[device] = switch_algo
                 else:
