@@ -78,7 +78,7 @@ class Algorithm(object):
         self._benchmarking = False
 
     def __repr__(self):
-        return f'<algorithm:{self.name} {self.algorithms}>'
+        return '<algorithm:'+self.name+' '+self.algorithms+'>'
 
     def accepts(self, device):
         """Check if this algorithm will run on this device."""
