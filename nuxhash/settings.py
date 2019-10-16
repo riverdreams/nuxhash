@@ -122,7 +122,7 @@ def write_benchmarks_to_file(fd, benchmarks):
 
 def load_settings(config_dir):
     try:
-        with open(config_dir/SETTINGS_FILENAME, 'r') as settings_fd:
+        with open(str(config_dir/SETTINGS_FILENAME), 'r') as settings_fd:
             settings = read_settings_from_file(settings_fd)
     except IOError as err:
         if err.errno != errno.ENOENT:
