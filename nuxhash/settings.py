@@ -134,7 +134,7 @@ def load_settings(config_dir):
 
 def load_benchmarks(config_dir, devices):
     try:
-        with open(config_dir/BENCHMARKS_FILENAME, 'r') as benchmarks_fd:
+        with open(str(config_dir/BENCHMARKS_FILENAME), 'r') as benchmarks_fd:
             benchmarks = read_benchmarks_from_file(benchmarks_fd, devices)
     except IOError as err:
         if err.errno != errno.ENOENT:
@@ -146,13 +146,13 @@ def load_benchmarks(config_dir, devices):
 
 def save_settings(config_dir, settings):
     _mkdir(config_dir)
-    with open(config_dir/SETTINGS_FILENAME, 'w') as settings_fd:
+    with open(str(config_dir/BENCHMARKS_FILENAME), 'w') as settings_fd:
         write_settings_to_file(settings_fd, settings)
 
 
 def save_benchmarks(config_dir, benchmarks):
     _mkdir(config_dir)
-    with open(config_dir/BENCHMARKS_FILENAME, 'w') as benchmarks_fd:
+    with open(str(config_dir/BENCHMARKS_FILENAME), 'w') as benchmarks_fd:
         write_benchmarks_to_file(benchmarks_fd, benchmarks)
 
 
